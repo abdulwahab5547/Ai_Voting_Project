@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Voter Login · Face Scan{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="card scan-card">
+    <h1>Face Authentication</h1>
+    <p class="muted">Look directly at the camera and click <strong>Scan My Face</strong>.</p>
+
+    <div class="camera-stack">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="snap" hidden></canvas>
+      <div class="camera-actions">
+        <button id="btn-scan" class="btn btn-primary btn-lg">Scan My Face</button>
+      </div>
+    </div>
+
+    <div id="status" class="scan-status" hidden></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/voter_login.js') }}"></script>
+{% endblock %}

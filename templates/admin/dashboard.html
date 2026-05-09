@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Admin · Register Voter{% endblock %}
+{% block content %}
+{% include "admin/_tabs.html" with context %}
+
+<section class="grid-2">
+  <div class="card">
+    <h2>Register New Voter</h2>
+    <p class="muted">Position the voter in front of the camera, click <strong>Capture</strong>, then <strong>Save</strong>.</p>
+
+    <div class="camera-stack">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="snap" hidden></canvas>
+      <img id="preview" alt="Captured face" hidden />
+      <div class="camera-actions">
+        <button id="btn-capture"  class="btn btn-primary">Capture</button>
+        <button id="btn-retake"   class="btn btn-ghost"   hidden>Retake</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Voter Details</h2>
+    <form id="register-form" method="post" action="{{ url_for('admin.register_voter') }}" class="form">
+      <label class="field">
+        <span>Full Name</span>
+        <input type="text" name="name" required />
+      </label>
+      <label class="field">
+        <span>CNIC / National ID</span>
+        <input type="text" name="cnic" required pattern="[A-Za-z0-9-]+" />
+      </label>
+      <input type="hidden" name="image" id="image-input" />
+      <button class="btn btn-primary btn-block" type="submit" id="btn-save" disabled>Save Voter</button>
+      <p class="hint" id="capture-hint">Capture a photo first.</p>
+    </form>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Show Results on ESP32</h2>
+  <p class="muted">Pushes the current vote tally and winner to the booth display. Use this any time during or after the election.</p>
+  <form method="post" action="{{ url_for('admin.show_results') }}">
+    <button class="btn btn-primary" type="submit">Display Results on ESP32</button>
+  </form>
+</section>
+
+<section class="card danger-zone">
+  <h2>Reset Election</h2>
+  <p class="muted">Clears all cast votes and resets every voter's <code>has_voted</code> flag. Voters and candidates remain.</p>
+  <form method="post" action="{{ url_for('admin.reset_election') }}"
+        onsubmit="return confirm('This will erase all votes. Continue?');">
+    <button class="btn btn-danger" type="submit">Reset Election</button>
+  </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}

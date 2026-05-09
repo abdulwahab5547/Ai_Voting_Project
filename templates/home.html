@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1 class="hero-title">Secure. Verified. Counted.</h1>
+  <p class="hero-sub">
+    Face-authenticated digital voting with live booth feedback on a connected ESP32 display.
+  </p>
+  <div class="stat-row">
+    <div class="stat"><span class="stat-num">{{ total_voters }}</span><span class="stat-label">Registered Voters</span></div>
+    <div class="stat"><span class="stat-num">{{ total_voted }}</span><span class="stat-label">Votes Cast</span></div>
+    <div class="stat"><span class="stat-num">{{ total_candidates }}</span><span class="stat-label">Candidates</span></div>
+  </div>
+</section>
+
+<section class="cards">
+  <a class="card card-link" href="{{ url_for('admin.login') }}">
+    <div class="card-icon">A</div>
+    <h2>Admin Panel</h2>
+    <p>Register voters, manage candidates, reset election.</p>
+  </a>
+
+  <a class="card card-link card-primary" href="{{ url_for('voter.login') }}">
+    <div class="card-icon">V</div>
+    <h2>Cast Your Vote</h2>
+    <p>Scan your face and vote securely in seconds.</p>
+  </a>
+
+  <a class="card card-link" href="{{ url_for('results.page') }}">
+    <div class="card-icon">R</div>
+    <h2>Live Results</h2>
+    <p>See vote counts and turnout update in real time.</p>
+  </a>
+</section>
+{% endblock %}

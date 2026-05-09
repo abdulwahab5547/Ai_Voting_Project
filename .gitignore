@@ -1,0 +1,29 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# App data (contains the SQLite DB and registered face snapshots)
+data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

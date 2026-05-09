@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Voting Booth{% endblock %}
+{% block content %}
+<section class="booth">
+  <div class="booth-header">
+    <h1>Welcome, {{ voter_name }}</h1>
+    <p class="muted">Tap a candidate, then confirm. You can vote only once.</p>
+  </div>
+
+  {% if candidates %}
+  <form method="post" action="{{ url_for('booth.cast_vote') }}" id="vote-form">
+    <div class="candidate-grid">
+      {% for c in candidates %}
+      <label class="candidate-card">
+        <input type="radio" name="candidate_id" value="{{ c.id }}" required />
+        <div class="candidate-card-inner">
+          <div class="candidate-symbol-lg">
+            {% if c.symbol_path %}
+              <img src="{{ url_for('admin.data_file', relpath=c.symbol_path) }}" alt="symbol" />
+            {% else %}
+              <div class="symbol-placeholder lg">{{ c.name[0]|upper }}</div>
+            {% endif %}
+          </div>
+          <strong class="candidate-name">{{ c.name }}</strong>
+          <span class="candidate-party">{{ c.party }}</span>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
+
+    <div class="vote-actions">
+      <button type="submit" class="btn btn-primary btn-lg"
+              onclick="return confirm('Submit your vote? This cannot be changed.');">
+        Cast My Vote
+      </button>
+    </div>
+  </form>
+  {% else %}
+    <p class="empty">No candidates have been added yet. Please ask the admin to add candidates.</p>
+  {% endif %}
+</section>
+{% endblock %}

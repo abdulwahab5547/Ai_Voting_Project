@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Admin · Voters{% endblock %}
+{% block content %}
+{% include "admin/_tabs.html" with context %}
+
+<section class="card">
+  <div class="card-head">
+    <h2>Registered Voters</h2>
+    <span class="muted">{{ voters|length }} total</span>
+  </div>
+
+  {% if voters %}
+  <table class="table">
+    <thead>
+      <tr><th>#</th><th>Name</th><th>CNIC</th><th>Status</th><th>Registered</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for v in voters %}
+      <tr>
+        <td>{{ v.id }}</td>
+        <td>{{ v.name }}</td>
+        <td>{{ v.cnic }}</td>
+        <td>
+          {% if v.has_voted %}<span class="pill pill-success">Voted</span>
+          {% else %}<span class="pill pill-muted">Pending</span>{% endif %}
+        </td>
+        <td>{{ v.registered_at }}</td>
+        <td>
+          <form method="post" action="{{ url_for('admin.delete_voter', voter_id=v.id) }}"
+                onsubmit="return confirm('Delete {{ v.name }}?');">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p class="empty">No voters registered yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

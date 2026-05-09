@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin · Candidates{% endblock %}
+{% block content %}
+{% include "admin/_tabs.html" with context %}
+
+<section class="grid-2">
+  <div class="card">
+    <h2>Add Candidate</h2>
+    <form class="form" method="post" enctype="multipart/form-data"
+          action="{{ url_for('admin.candidates') }}">
+      <label class="field">
+        <span>Candidate Name</span>
+        <input type="text" name="name" required />
+      </label>
+      <label class="field">
+        <span>Party</span>
+        <input type="text" name="party" required />
+      </label>
+      <label class="field">
+        <span>Symbol (optional)</span>
+        <input type="file" name="symbol" accept="image/*" />
+      </label>
+      <button class="btn btn-primary btn-block" type="submit">Add Candidate</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>Candidates</h2>
+      <span class="muted">{{ candidates|length }} total</span>
+    </div>
+
+    {% if candidates %}
+    <ul class="candidate-list">
+      {% for c in candidates %}
+      <li class="candidate-row">
+        <div class="candidate-symbol">
+          {% if c.symbol_path %}
+            <img src="{{ url_for('admin.data_file', relpath=c.symbol_path) }}" alt="symbol" />
+          {% else %}
+            <div class="symbol-placeholder">{{ c.name[0]|upper }}</div>
+          {% endif %}
+        </div>
+        <div class="candidate-info">
+          <strong>{{ c.name }}</strong>
+          <span class="muted">{{ c.party }}</span>
+        </div>
+        <form method="post" action="{{ url_for('admin.delete_candidate', cid=c.id) }}"
+              onsubmit="return confirm('Delete {{ c.name }}?');">
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p class="empty">No candidates yet. Add at least two before voting begins.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

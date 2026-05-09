@@ -1,0 +1,8 @@
+<nav class="tabs">
+  <a class="tab {% if request.endpoint == 'admin.dashboard' %}active{% endif %}"
+     href="{{ url_for('admin.dashboard') }}">Register Voter</a>
+  <a class="tab {% if request.endpoint == 'admin.voters' %}active{% endif %}"
+     href="{{ url_for('admin.voters') }}">Voters</a>
+  <a class="tab {% if request.endpoint == 'admin.candidates' %}active{% endif %}"
+     href="{{ url_for('admin.candidates') }}">Candidates</a>
+</nav>

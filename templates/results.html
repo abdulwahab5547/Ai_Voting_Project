@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Live Results{% endblock %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="results">
+  <div class="results-head">
+    <h1>Live Results</h1>
+    <span class="dot-live"><span class="dot"></span>Updating every 3 seconds</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="stat-num" id="s-registered">0</span><span class="stat-label">Registered</span></div>
+    <div class="stat"><span class="stat-num" id="s-voted">0</span><span class="stat-label">Votes Cast</span></div>
+    <div class="stat"><span class="stat-num" id="s-turnout">0%</span><span class="stat-label">Turnout</span></div>
+    <div class="stat"><span class="stat-num" id="s-last">—</span><span class="stat-label">Last Vote</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Vote Counts</h2>
+    <canvas id="chart" height="120"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>Per Candidate</h2>
+    <table class="table" id="results-table">
+      <thead><tr><th>#</th><th>Candidate</th><th>Party</th><th class="num">Votes</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+{% endblock %}

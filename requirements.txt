@@ -1,0 +1,30 @@
+# ============================================================
+#  Smart Digital Voting Machine - Python dependencies
+# ============================================================
+#  Tested with Python 3.10 / 3.11 / 3.12 on Windows 10/11.
+#  Install with:
+#       pip install -r requirements.txt
+# ------------------------------------------------------------
+
+# Web framework
+Flask==3.0.3
+python-dotenv==1.0.1
+Werkzeug==3.0.4
+
+# Face recognition stack
+# dlib-bin = prebuilt dlib wheels (Windows/Linux/macOS).
+# Avoids the painful "build dlib from source" path on Windows.
+dlib-bin==19.24.6
+face_recognition==1.3.0
+face_recognition_models==0.3.0
+
+# Image / array
+numpy==1.26.4
+opencv-python==4.10.0.84
+Pillow==10.4.0
+
+# ESP32 serial bridge
+pyserial==3.5
+
+# Testing (optional)
+pytest==8.3.3

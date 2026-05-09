@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<section class="auth-wrap">
+  <div class="card auth-card">
+    <h1>Admin Login</h1>
+    <p class="muted">Enter the admin password to manage voters, candidates, and the election.</p>
+    <form method="post" class="form">
+      <label class="field">
+        <span>Password</span>
+        <input type="password" name="password" autofocus required />
+      </label>
+      <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

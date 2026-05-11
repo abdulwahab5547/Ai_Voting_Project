@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Admin · Start Voting{% endblock %}
+{% block content %}
+{% include "admin/_tabs.html" with context %}
+
+<section class="auth-wrap">
+  <div class="card scan-card">
+    <h1>Start Voting Session</h1>
+    {% if voting_open %}
+      <p class="muted"><strong>Voting is already OPEN.</strong> Return to the dashboard to close it.</p>
+      <a class="btn btn-ghost" href="{{ url_for('admin.dashboard') }}">Back to dashboard</a>
+    {% elif not admin_face_enrolled %}
+      <p class="muted">No admin face is enrolled yet.
+        First <a href="{{ url_for('admin.face_enroll') }}">enroll your face</a>.</p>
+    {% else %}
+      <p class="muted">
+        Look directly at the camera and click <strong>Verify &amp; Start</strong>.
+        Voting only opens after your face is recognized.
+      </p>
+
+      <div class="camera-stack">
+        <video id="vid" autoplay playsinline muted></video>
+        <canvas id="snap" hidden></canvas>
+        <div class="camera-actions">
+          <button id="btn-start" class="btn btn-primary btn-lg">Verify &amp; Start</button>
+          <a class="btn btn-ghost" href="{{ url_for('admin.dashboard') }}">Cancel</a>
+        </div>
+      </div>
+
+      <div id="status" class="scan-status" hidden></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+{% if admin_face_enrolled and not voting_open %}
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin_start_voting.js') }}"></script>
+{% endif %}
+{% endblock %}

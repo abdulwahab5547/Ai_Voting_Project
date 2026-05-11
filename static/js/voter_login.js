@@ -37,6 +37,9 @@
         show("ok", data.message + " Redirecting to the booth…");
         Camera.stop(vid);
         setTimeout(() => (window.location.href = data.redirect), 900);
+      } else if (data.status === "closed") {
+        show("warn", data.message);
+        btnScan.disabled = false;
       } else if (data.status === "already_voted") {
         show("warn", data.message);
         btnScan.disabled = false;

@@ -3,6 +3,30 @@
 {% block content %}
 {% include "admin/_tabs.html" with context %}
 
+<section class="card">
+  <h2>Voting Session</h2>
+  {% if voting_open %}
+    <p class="muted">Status: <strong style="color:#0a7d2c">OPEN</strong> — voters can log in and cast votes.</p>
+    <form method="post" action="{{ url_for('admin.stop_voting') }}"
+          onsubmit="return confirm('Close the voting session?');">
+      <button class="btn btn-danger" type="submit">End Voting</button>
+    </form>
+  {% else %}
+    <p class="muted">Status: <strong style="color:#b00020">CLOSED</strong> — voters cannot log in until you start the session.</p>
+    {% if admin_face_enrolled %}
+      <a class="btn btn-primary" href="{{ url_for('admin.start_voting') }}">Start Voting (Face Required)</a>
+    {% else %}
+      <p class="hint">You must enroll an admin face before you can start voting.</p>
+      <a class="btn btn-primary" href="{{ url_for('admin.face_enroll') }}">Enroll Admin Face</a>
+    {% endif %}
+  {% endif %}
+  {% if admin_face_enrolled %}
+    <p class="hint" style="margin-top:.5rem">
+      <a href="{{ url_for('admin.face_enroll') }}">Enroll another admin face</a>
+    </p>
+  {% endif %}
+</section>
+
 <section class="grid-2">
   <div class="card">
     <h2>Register New Voter</h2>

@@ -7,6 +7,7 @@ from core.db import (
     fetch_all,
     fetch_one,
     get_conn,
+    is_voting_open,
     log_event,
     now_iso,
     party_totals,
@@ -33,13 +34,21 @@ def cast_vote():
     candidate_id = request.form.get("candidate_id", type=int)
     voter_id = session["voter_id"]
 
+    if not is_voting_open():
+        esp32.send("VOTE_FAIL", voter_id=voter_id, reason="Voting closed")
+        flash("Voting is currently closed.", "danger")
+        session.clear()
+        return redirect(url_for("home.index"))
+
     candidate = fetch_one("SELECT * FROM candidates WHERE id = ?", (candidate_id,))
     if candidate is None:
+        esp32.send("VOTE_FAIL", voter_id=voter_id, reason="Invalid candidate")
         flash("Invalid candidate.", "danger")
         return redirect(url_for("booth.booth"))
 
     voter = fetch_one("SELECT name, has_voted FROM voters WHERE id = ?", (voter_id,))
     if voter is None or voter["has_voted"]:
+        esp32.send("VOTE_FAIL", voter_id=voter_id, reason="Already voted")
         flash("Vote could not be recorded.", "danger")
         session.clear()
         return redirect(url_for("home.index"))
@@ -61,6 +70,7 @@ def cast_vote():
     )
     esp32.send(
         "VOTE_CAST",
+        voter_id=voter_id,
         name=voter["name"],
         candidate=candidate["name"],
         party=candidate["party"],

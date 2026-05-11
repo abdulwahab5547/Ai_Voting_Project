@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Admin · Enroll Face{% endblock %}
+{% block content %}
+{% include "admin/_tabs.html" with context %}
+
+<section class="auth-wrap">
+  <div class="card scan-card">
+    <h1>Enroll Admin Face</h1>
+    <p class="muted">
+      Capture your face so you can later <strong>start the voting session</strong> with it.
+      Look directly at the camera, enter a name, then <strong>Enroll</strong>.
+    </p>
+
+    <label class="field">
+      <span>Admin name (for audit log)</span>
+      <input type="text" id="admin-name" value="Admin" />
+    </label>
+
+    <div class="camera-stack">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="snap" hidden></canvas>
+      <div class="camera-actions">
+        <button id="btn-enroll" class="btn btn-primary btn-lg">Enroll</button>
+        <a class="btn btn-ghost" href="{{ url_for('admin.dashboard') }}">Back</a>
+      </div>
+    </div>
+
+    <div id="status" class="scan-status" hidden></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin_face_enroll.js') }}"></script>
+{% endblock %}
